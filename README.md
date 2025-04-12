@@ -37,3 +37,85 @@ public:
 void sendNotification(Notification* notifier, const std::string& message) {
     notifier->send(message);
 }
+
+
+---------Game Character System----------
+#include <iostream>
+#include <vector>
+#include <memory>
+
+// Interface Kemampuan
+class Ability {
+public:
+    virtual void use() = 0;
+    virtual ~Ability() = default;
+};
+
+// Kemampuan Attack
+class Attack : public Ability {
+public:
+    void use() override {
+        std::cout << "Using Attack!" << std::endl;
+    }
+};
+
+// Kemampuan Healing
+class Healing : public Ability {
+public:
+    void use() override {
+        std::cout << "Using Healing!" << std::endl;
+    }
+};
+
+// Kemampuan Defend
+class Defend : public Ability {
+public:
+    void use() override {
+        std::cout << "Using Defend!" << std::endl;
+    }
+};
+
+// Abstraksi karakter
+class Character {
+protected:
+    std::vector<std::shared_ptr<Ability>> abilities;
+
+public:
+    virtual void display() = 0;
+
+    void addAbility(std::shared_ptr<Ability> ability) {
+        abilities.push_back(ability);
+    }
+
+    void useAbilities() {
+        for (const auto& ability : abilities) {
+            ability->use();
+        }
+    }
+
+    virtual ~Character() = default;
+};
+
+// Player
+class Player : public Character {
+public:
+    void display() override {
+        std::cout << "I am a Player" << std::endl;
+    }
+};
+
+// Enemy
+class Enemy : public Character {
+public:
+    void display() override {
+        std::cout << "I am an Enemy" << std::endl;
+    }
+};
+
+// NPC
+class NPC : public Character {
+public:
+    void display() override {
+        std::cout << "I am an NPC" << std::endl;
+    }
+};
